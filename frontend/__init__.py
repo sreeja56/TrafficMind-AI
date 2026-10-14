@@ -1,0 +1,3 @@
+"""
+TrafficMind AI - Frontend Module
+"""

@@ -47,10 +47,18 @@ Urban traffic congestion accounts for billions of dollars in lost productivity, 
 
 ```text
 TrafficMind-AI/
-├── .gitignore           # Excludes virtual environments, caches, OS files, and secrets
-├── requirements.txt     # Python package dependencies
-├── app.py               # Complete Streamlit application with ML engine and network algorithms
-└── README.md            # Comprehensive documentation, setup guide, and hackathon details
+├── .gitignore               # Excludes virtual environments, caches, OS files, and secrets
+├── requirements.txt         # Python package dependencies
+├── app.py                   # Root application entry point (delegates to frontend)
+├── app.py.bak               # Original backup preserved
+├── frontend/
+│   ├── __init__.py
+│   └── app.py               # Streamlit web interface & Plotly network visualizer
+├── backend/
+│   ├── __init__.py
+│   ├── predictor.py         # ML dataset generator, Random Forest training & inference
+│   └── routing.py           # NetworkX graph topology, dynamic cost & green-corridor engine
+└── README.md                # Comprehensive documentation, setup guide, and hackathon details
 ```
 
 ---
@@ -79,8 +87,9 @@ pip install -r requirements.txt
 
 ### 4. Run the TrafficMind AI application:
 ```powershell
-python -m streamlit run app.py
+python -m streamlit run frontend/app.py
 ```
+*(Alternatively, running `python -m streamlit run app.py` will also launch the application via root delegation).*
 
 Streamlit will automatically launch the application in your default web browser at `http://localhost:8501`.
 

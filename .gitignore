@@ -58,3 +58,10 @@ Thumbs.db
 desktop.ini
 *.tmp
 *.log
+
+# TrafficMind AI local backups
+app.py.bak
+*.bak
+
+# Streamlit local configuration
+.streamlit/
