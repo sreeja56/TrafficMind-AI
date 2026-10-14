@@ -47,51 +47,75 @@ Urban traffic congestion accounts for billions of dollars in lost productivity, 
 
 ```text
 TrafficMind-AI/
-├── .gitignore               # Excludes virtual environments, caches, OS files, and secrets
-├── requirements.txt         # Python package dependencies
-├── app.py                   # Root application entry point (delegates to frontend)
+├── vercel.json              # Vercel deployment config (API rewrites to Python serverless)
+├── package.json             # Next.js & React dependencies
+├── next.config.mjs          # Next.js configuration with development API rewrites
+├── tailwind.config.ts       # Tailwind CSS theme configuration
+├── postcss.config.mjs       # PostCSS configuration
+├── tsconfig.json            # TypeScript configuration
+├── requirements.txt         # Python dependencies for Vercel Serverless Function
+├── app.py                   # Root FastAPI entrypoint (resolves Vercel top-level export)
 ├── app.py.bak               # Original backup preserved
-├── frontend/
-│   ├── __init__.py
-│   └── app.py               # Streamlit web interface & Plotly network visualizer
+├── api/
+│   └── index.py             # FastAPI Serverless backend for Vercel
+├── src/
+│   └── app/
+│       ├── layout.tsx       # Root Next.js layout & metadata
+│       ├── globals.css      # Cyber dark theme & glassmorphism utilities
+│       └── page.tsx         # Full TrafficMind AI interactive dashboard
 ├── backend/
-│   ├── __init__.py
 │   ├── predictor.py         # ML dataset generator, Random Forest training & inference
 │   └── routing.py           # NetworkX graph topology, dynamic cost & green-corridor engine
+├── frontend/
+│   └── app.py               # Original Streamlit dashboard (preserved)
 └── README.md                # Comprehensive documentation, setup guide, and hackathon details
 ```
 
 ---
 
-## ⚙️ Installation & Setup (Windows PowerShell)
+## ☁️ Deploying on Vercel (Step-by-Step)
 
-Follow these exact steps in Windows PowerShell to set up and launch TrafficMind AI:
+The project is now pre-configured for seamless 1-click deployment on Vercel:
 
-### 1. Open Windows PowerShell and navigate to the project directory:
+1. **Commit and push your changes to GitHub:**
+   ```powershell
+   git add .
+   git commit -m "feat: Vercel deployment with Next.js frontend and FastAPI serverless backend"
+   git push origin main
+   ```
+
+2. **Deploy on Vercel:**
+   - Log into [Vercel](https://vercel.com) and click **"Add New Project"**.
+   - Import `sreeja56/TrafficMind-AI`.
+   - Vercel will automatically detect **Next.js** as the framework.
+   - Leave the default settings (**Build Command:** `next build`, **Output Directory:** `.next`).
+   - Click **Deploy**!
+
+Vercel will build the Next.js frontend and automatically compile `api/index.py` into a high-performance Python Serverless Function.
+
+---
+
+## ⚙️ Running Locally (Windows PowerShell)
+
+To test both the Next.js frontend and FastAPI backend locally:
+
+### 1. Terminal 1: Run the Next.js Frontend
 ```powershell
 cd c:\Users\sreej\OneDrive\Documents\promptwars\TrafficMind-AI
+npm install
+npm run dev
 ```
+Open **`http://localhost:3000`** in your browser.
 
-### 2. (Optional but Recommended) Create and activate a clean virtual environment:
+### 2. (Optional) Terminal 2: Run the FastAPI Python Backend locally
 ```powershell
-python -m venv .venv
+cd c:\Users\sreej\OneDrive\Documents\promptwars\TrafficMind-AI
 .\.venv\Scripts\Activate.ps1
+python app.py
 ```
+FastAPI will start on `http://localhost:8000`. Next.js proxies all `/api/*` requests to this backend during development!
 
-> *Note: If PowerShell execution policy restricts script execution, run: `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass`*
-
-### 3. Install required Python packages:
-```powershell
-pip install -r requirements.txt
-```
-
-### 4. Run the TrafficMind AI application:
-```powershell
-python -m streamlit run frontend/app.py
-```
-*(Alternatively, running `python -m streamlit run app.py` will also launch the application via root delegation).*
-
-Streamlit will automatically launch the application in your default web browser at `http://localhost:8501`.
+*(To run the original Streamlit interface locally instead: `python -m streamlit run frontend/app.py`)*
 
 ---
 
@@ -104,21 +128,20 @@ To showcase the application to judges in under 3 minutes:
      `Preset 1: Morning Commute Gridlock (8:30 AM, High Volume, Rain)`.
    - Observe how the dashboard immediately updates the **Predicted Congestion** card to **🔴 Severe**, shows confidence breakdown, and provides explainability notes on volume squeeze and weather degradation.
 2. **Inspect the Short-Term Forecast**:
-   - Scroll down in the **🚦 Congestion Predictor & Simulator** tab to see the 12-hour illustrative projection showing the morning rush peak and post-commute dissipation.
+   - Scroll down in the **🚦 Predictor & Simulator** tab to see the 12-hour illustrative projection showing the morning rush peak and post-commute dissipation.
 3. **Explore the Dynamic Network Map**:
-   - Switch to the **🗺️ Dynamic City Network Map** tab.
-   - Hover over corridors to inspect real-time live speed, delay, and congestion ratings across all 20 urban arterials.
+   - Switch to the **🗺️ Dynamic City Map** tab.
+   - Hover over corridors and nodes to inspect real-time live speed, delay, and congestion ratings across all 20 urban arterials.
 4. **Demonstrate AI Congestion Rerouting**:
-   - Switch to the **🧭 AI Alternative Route Planner** tab.
+   - Switch to the **🧭 AI Alternative Route** tab.
    - Select Origin: `West End Industrial Park` and Destination: `International Airport Link`.
-   - Click **🚀 Re-calculate Optimal Path**.
    - Review the comparison: notice how the AI route avoids congested downtown arterials, routing along less congested bypasses to save significant travel minutes.
 5. **Demonstrate Emergency Green-Corridor**:
-   - Switch to the **🚑 Emergency Green-Corridor** tab.
+   - Switch to the **🚑 Emergency Corridor** tab.
    - Select `🚑 Critical Trauma Ambulance` departing from `North Harbor Crossing` to `City General Trauma Hospital`.
    - Observe the **Golden Hour Minutes Saved** metric and the neon emerald green corridor with automated signal preemption.
 6. **Verify Model Rigor & Transparency**:
-   - Switch to the **📊 Model Evaluation & Transparency** tab.
+   - Switch to the **📊 Model Evaluation** tab.
    - Walk through the Confusion Matrix heatmap, balanced F1-scores, and Gini Feature Importances.
 
 ---
@@ -128,18 +151,17 @@ To showcase the application to judges in under 3 minutes:
 In accordance with responsible AI practices and hackathon integrity guidelines:
 
 - **Synthetic Telemetry Disclaimer**: Real-time municipal induction-loop datasets and commercial vehicle GPS probe streams are typically proprietary, geo-restricted, or anonymized behind strict NDAs. To guarantee **100% reproducible execution and offline self-containment**, TrafficMind AI generates a physics-inspired synthetic dataset based on the **Greenshields fundamental traffic diagram** and **Bureau of Public Roads (BPR) delay equations**.
-- **Model Accuracy Interpretation**: The test set accuracy (~95%+) reflects classification fidelity against this synthetic benchmark distribution. These metrics demonstrate algorithmic correctness and architectural feasibility, but must not be presented as validated real-world municipal operational results without on-site sensor calibration.
+- **Model Accuracy Interpretation**: The test set accuracy (~94.3%) reflects classification fidelity against this synthetic benchmark distribution. These metrics demonstrate algorithmic correctness and architectural feasibility, but must not be presented as validated real-world municipal operational results without on-site sensor calibration.
 - **Future Field Calibration**: For real-world deployment, the pipeline can be connected via MQTT / Kafka to inductive loop counters, CCTV computer-vision density estimators, and V2X (Vehicle-to-Everything) telemetry streams.
 
 ---
 
 ## ⚖️ Hackathon Compliance Checklist
 
-- [x] Lightweight repository (well below 10 MB limit, no large binary blobs or uncompressed model weights).
-- [x] All work committed to the existing `main` branch.
+- [x] Lightweight repository (well below 10 MB limit, excludes `.venv` and `node_modules`).
 - [x] Zero hardcoded API keys, secrets, or cloud credentials.
-- [x] Comprehensive `.gitignore` excluding `.venv/`, `__pycache__/`, and local environment files.
-- [x] Verified launch command: `python -m streamlit run app.py`.
+- [x] Comprehensive `.gitignore` excluding `.venv/`, `node_modules/`, `.next/`, and local caches.
+- [x] Vercel-ready with Next.js App Router and Python FastAPI Serverless backend.
 - [x] Fully self-contained without external paid API requirements.
 
 ---

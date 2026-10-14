@@ -1,21 +1,11 @@
 """
-TrafficMind AI - Root Application Entry Point
-Points to the refactored frontend application in frontend/app.py.
-
-Usage:
-    python -m streamlit run frontend/app.py
-    (or: python -m streamlit run app.py)
+TrafficMind AI - Root Entry Point
+Exports the FastAPI 'app' ASGI callable for Vercel Serverless runtime,
+resolving Vercel's 'Found app.py but it does not export a top-level function' error.
 """
 
-import sys
-from pathlib import Path
-
-# Ensure root directory is on Python path
-ROOT_DIR = Path(__file__).resolve().parent
-if str(ROOT_DIR) not in sys.path:
-    sys.path.insert(0, str(ROOT_DIR))
-
-from frontend.app import main
+from api.index import app
 
 if __name__ == "__main__":
-    main()
+    import uvicorn
+    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)

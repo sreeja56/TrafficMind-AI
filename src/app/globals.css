@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #070d1e;
+  --foreground: #f8fafc;
+}
+
+body {
+  color: var(--foreground);
+  background: radial-gradient(circle at 50% 0%, #0d1b38 0%, #060b18 75%);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  min-height: 100vh;
+}
+
+code, pre {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Glassmorphism Card */
+.glass-panel {
+  background: rgba(14, 23, 42, 0.75);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+}
+
+.glass-panel:hover {
+  border-color: rgba(0, 229, 255, 0.3);
+}
+
+/* Cyber glow effects */
+.glow-border-cyan {
+  box-shadow: 0 0 20px -5px rgba(0, 229, 255, 0.25);
+  border: 1px solid rgba(0, 229, 255, 0.4);
+}
+
+.glow-border-green {
+  box-shadow: 0 0 20px -5px rgba(0, 230, 118, 0.25);
+  border: 1px solid rgba(0, 230, 118, 0.4);
+}
+
+.glow-border-red {
+  box-shadow: 0 0 20px -5px rgba(255, 23, 68, 0.25);
+  border: 1px solid rgba(255, 23, 68, 0.4);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #090e1f;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
